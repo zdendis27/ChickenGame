@@ -14,7 +14,10 @@ public class Frame extends JFrame {
         this.setIconImage(icon.getImage());
         this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
-        this.getContentPane().setBackground(Color.CYAN);
+        new Menu(this);
+
 
     }
+
+
 }
