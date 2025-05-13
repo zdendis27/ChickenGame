@@ -8,6 +8,8 @@ public class Frame extends JFrame {
     CardLayout cardLayout = new CardLayout();
     JPanel cards = new JPanel(cardLayout);
 
+
+
     Frame(){
         this.setVisible(true);
         this.setSize(800, 600);
@@ -26,7 +28,11 @@ public class Frame extends JFrame {
 
 
 
+
+
+
         this.add(cards, BorderLayout.CENTER);
+
         this.setVisible(true);
 
 
