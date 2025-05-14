@@ -7,6 +7,8 @@ public class Frame extends JFrame {
     ImageIcon icon = new ImageIcon("src/images/cartoon-strong-chicken-mascot-design-vector-29152871.jpg");
     CardLayout cardLayout = new CardLayout();
     JPanel cards = new JPanel(cardLayout);
+    private GamePanel gamePanel;
+    private Menu menuPanel;
 
 
 
@@ -20,8 +22,8 @@ public class Frame extends JFrame {
         this.setLocationRelativeTo(null);
 
 
-        Menu menuPanel = new Menu(this);
-        GamePanel gamePanel = new GamePanel(this);
+        menuPanel= new Menu(this);
+        gamePanel = new GamePanel(this);
 
         cards.add(menuPanel,"menu");
         cards.add(gamePanel, "game");
@@ -41,6 +43,14 @@ public class Frame extends JFrame {
 
     public void switchTo(String panelName) {
         cardLayout.show(cards, panelName);
+    }
+
+    public void restartGame(){
+        cards.remove(gamePanel);
+        gamePanel = new GamePanel(this);
+        cards.add(gamePanel,"game");
+        cardLayout.show(cards,"game");
+
     }
 
 

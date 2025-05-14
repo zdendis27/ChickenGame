@@ -6,30 +6,48 @@ public class GamePanel extends JPanel {
     private JButton[][] gridButtons = new JButton[5][5];
     private GamePanelMenu popupMenu;
     private ImageIcon menuIcon = new ImageIcon("src/images/menuIcon.png");
+    GameLogic gl = new GameLogic ();
 
     public GamePanel(Frame frame) {
         this.setLayout(new BorderLayout());
+        gl.createBones();
+        int index = 0;
 
 
         JPanel gridPanel = new JPanel(new GridLayout(5, 5));
         gridPanel.setPreferredSize(new Dimension(400, 400));
 
+
+
         for (int row = 0; row < 5; row++) {
             for (int col = 0; col < 5; col++) {
                 JButton button = new JButton();
+
                 int finalRow = row;
                 int finalCol = col;
 
+
+                boolean isBone = gl.getBones().get(index);
+                index++;
+
                 button.addActionListener(e -> {
                     System.out.println("Kliknuto na pole [" + finalRow + ", " + finalCol + "]");
-                    //here comes game logic
-                    button.setBackground(Color.YELLOW);
+                    if (!isBone) {
+                        button.setBackground(Color.RED);
+                        gameOver(frame);
+                    } else {
+                        button.setBackground(Color.GREEN);
+                    }
+                    button.setEnabled(false);
                 });
 
                 gridButtons[row][col] = button;
                 gridPanel.add(button);
             }
         }
+
+
+
 
 
         popupMenu = new GamePanelMenu(frame);
@@ -49,12 +67,33 @@ public class GamePanel extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.insets = new Insets(-100, 0, 0, 0); // posune nahoru
+        gbc.insets = new Insets(-100, 0, 0, 0);
         centerWrapper.add(gridPanel, gbc);
 
 
 
         this.add(topPanel, BorderLayout.NORTH);
         this.add(centerWrapper, BorderLayout.CENTER);
+    }
+
+    public void gameOver(Frame frame){
+
+
+
+        int choice = JOptionPane.showConfirmDialog(this, "Konec hry! Chceš hrát znovu?", "Game Over", JOptionPane.YES_NO_OPTION);
+        if (choice == JOptionPane.YES_OPTION) {
+            frame.restartGame();
+
+
+
+        }else{
+            for(int row = 0; row < 5; row++){
+                for(int col = 0; col < 5; col++){
+                    gridButtons[row][col].setEnabled(false);
+                }
+            }
+        }
+
+
     }
 }

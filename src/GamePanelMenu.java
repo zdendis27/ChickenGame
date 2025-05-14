@@ -36,6 +36,8 @@ public GamePanelMenu(Frame frame) {
 
 
         popup.show(frame, centerX, centerY);
+
+
     }
 
 
