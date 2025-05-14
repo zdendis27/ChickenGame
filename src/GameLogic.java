@@ -4,9 +4,9 @@ import java.util.Collections;
 public class GameLogic {
     private int numberOfBones = 25;
     private int numberOfBombs = 1;
-    private int maxNumberOfBombs = 3;
     private boolean gameOver = false;
     private ArrayList<Boolean> bones = new ArrayList<>();
+    User u = new User();
 
 
 
@@ -27,13 +27,7 @@ public class GameLogic {
         this.gameOver = gameOver;
     }
 
-    public int getMaxNumberOfBombs() {
-        return maxNumberOfBombs;
-    }
 
-    public void setMaxNumberOfBombs(int maxNumberOfBombs) {
-        this.maxNumberOfBombs = maxNumberOfBombs;
-    }
 
     public int getNumberOfBones() {
         return numberOfBones;
@@ -44,16 +38,18 @@ public class GameLogic {
     }
 
     public void createBones() {
-        for (int i = 0; i < numberOfBombs; i++){
+        u.loadUserBalance();
+        for (int i = 0; i < u.getNumberOfBombs(); i++){
             bones.add(false);
         }
-        for (int i = maxNumberOfBombs; i < numberOfBones; i++){
+        for (int i = u.getNumberOfBombs(); i < numberOfBones; i++){
             bones.add(true);
         }
 
         Collections.shuffle(bones);
         System.out.println(bones);
     }
+
 
 
 }

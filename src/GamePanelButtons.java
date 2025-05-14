@@ -1,0 +1,15 @@
+import javax.swing.*;
+import java.awt.*;
+
+public class GamePanelButtons extends JButton {
+
+    public GamePanelButtons(String text) {
+        this.setText(text);
+        this.setPreferredSize(new Dimension(200, 50));
+        this.setMaximumSize(new Dimension(200, 50));
+        this.setFont(new Font("Impact", Font.BOLD, 25));
+        this.setForeground(Color.RED);
+        this.setContentAreaFilled(false);
+        this.setAlignmentX(Component.CENTER_ALIGNMENT);
+    }
+}

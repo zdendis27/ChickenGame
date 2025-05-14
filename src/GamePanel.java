@@ -72,14 +72,24 @@ public class GamePanel extends JPanel {
 
 
 
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        GamePanelButtons gp1 = new GamePanelButtons("1zkouska");
+        GamePanelButtons gp2 = new GamePanelButtons("2zkouska");
+        GamePanelButtons gp3 = new GamePanelButtons("3zkouska");
+        bottomPanel.add(gp1);
+        bottomPanel.add(gp2);
+        bottomPanel.add(gp3);
+
+
+
+
+
         this.add(topPanel, BorderLayout.NORTH);
         this.add(centerWrapper, BorderLayout.CENTER);
+        this.add(bottomPanel, BorderLayout.SOUTH);
     }
 
     public void gameOver(Frame frame){
-
-
-
         int choice = JOptionPane.showConfirmDialog(this, "Konec hry! Chceš hrát znovu?", "Game Over", JOptionPane.YES_NO_OPTION);
         if (choice == JOptionPane.YES_OPTION) {
             frame.restartGame();
