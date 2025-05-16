@@ -14,7 +14,7 @@ public class ExitButton extends JButton {
         this.addActionListener(e -> {
             int confirm = JOptionPane.showConfirmDialog(frame, "Do you really want to exit?", "Accept", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
-                System.exit(0);
+                frame.dispose();
             }
         });
     }

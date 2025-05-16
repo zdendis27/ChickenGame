@@ -5,7 +5,9 @@ public class GamePanel extends JPanel {
 
     private JButton[][] gridButtons = new JButton[5][5];
     private GamePanelMenu popupMenu;
-    private ImageIcon menuIcon = new ImageIcon("src/images/menuIcon.png");
+    private ImageIcon menuIcon = LoadIcons.loadResizedIcon("src/images/menuIcon.png",48,48);
+    private ImageIcon minusIcon = LoadIcons.loadResizedIcon("src/images/minusIcon.png",100,100);
+    private ImageIcon plusIcon = LoadIcons.loadResizedIcon("src/images/plusIcon.png",100,100);
     GameLogic gl = new GameLogic ();
 
     public GamePanel(Frame frame) {
@@ -72,12 +74,34 @@ public class GamePanel extends JPanel {
 
 
 
-        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        GamePanelButtons gp1 = new GamePanelButtons("1zkouska");
-        GamePanelButtons gp2 = new GamePanelButtons("2zkouska");
-        GamePanelButtons gp3 = new GamePanelButtons("3zkouska");
-        bottomPanel.add(gp1);
-        bottomPanel.add(gp2);
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER,20,10));
+        BettingSystem bs = new BettingSystem();
+
+
+        GamePanelButtons minusButton = new GamePanelButtons("");
+        minusButton.setIcon(minusIcon);
+        minusButton.setBorderPainted(false);
+        minusButton.setContentAreaFilled(false);
+        minusButton.setFocusPainted(false);
+        minusButton.setOpaque(false);
+
+
+        GamePanelButtons plusButton = new GamePanelButtons("");
+        plusButton.setIcon(plusIcon);
+        plusButton.setBorderPainted(false);
+        plusButton.setContentAreaFilled(false);
+        plusButton.setFocusPainted(false);
+        plusButton.setOpaque(false);
+
+
+        GamePanelButtons gp3 = new GamePanelButtons("Vyber pocet");
+
+
+
+        bottomPanel.add(minusButton);
+        bottomPanel.add(bs.getStackedCurrentBalanceLabel());
+        bottomPanel.add(plusButton);
+        bottomPanel.add(bs.getCurrentBombsLabel());
         bottomPanel.add(gp3);
 
 
