@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class GamePanel extends JPanel {
 
@@ -7,10 +8,12 @@ public class GamePanel extends JPanel {
     private GamePanelMenu popupMenu;
     private ImageIcon menuIcon = LoadIcons.loadResizedIcon("src/images/menuIcon.png",48,48);
     GameLogic gl = new GameLogic ();
+    BettingSystem bs = new BettingSystem();
+
 
     public GamePanel(Frame frame) {
+        bs.setGamePanel(this);
         this.setLayout(new BorderLayout());
-        gl.createBones();
         int index = 0;
 
 
@@ -22,29 +25,12 @@ public class GamePanel extends JPanel {
         for (int row = 0; row < 5; row++) {
             for (int col = 0; col < 5; col++) {
                 JButton button = new JButton();
-
-                int finalRow = row;
-                int finalCol = col;
-
-
-                boolean isBone = gl.getBones().get(index);
-                index++;
-
-                button.addActionListener(e -> {
-                    System.out.println("Kliknuto na pole [" + finalRow + ", " + finalCol + "]");
-                    if (!isBone) {
-                        button.setBackground(Color.RED);
-                        gameOver(frame);
-                    } else {
-                        button.setBackground(Color.GREEN);
-                    }
-                    button.setEnabled(false);
-                });
-
                 gridButtons[row][col] = button;
                 gridPanel.add(button);
             }
         }
+
+        initializeGrid();
 
 
 
@@ -73,7 +59,7 @@ public class GamePanel extends JPanel {
 
 
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER,20,10));
-        BettingSystem bs = new BettingSystem();
+
 
 
 
@@ -112,4 +98,44 @@ public class GamePanel extends JPanel {
 
 
     }
+    private void initializeGrid() {
+        gl.createBones();
+        int index = 0;
+
+        for (int row = 0; row < 5; row++) {
+            for (int col = 0; col < 5; col++) {
+                JButton button = gridButtons[row][col];
+                button.setEnabled(true);
+                button.setBackground(null);
+
+                boolean isBone = gl.getBones().get(index);
+                int finalRow = row;
+                int finalCol = col;
+                index++;
+
+
+                for (ActionListener al : button.getActionListeners()) {
+                    button.removeActionListener(al);
+                }
+
+                button.addActionListener(e -> {
+                    System.out.println("Kliknuto na pole [" + finalRow + ", " + finalCol + "]");
+                    if (!isBone) {
+                        button.setBackground(Color.RED);
+                        gameOver((Frame) SwingUtilities.getWindowAncestor(this));
+                    } else {
+                        button.setBackground(Color.GREEN);
+                    }
+                    button.setEnabled(false);
+                    bs.getChooseNumberOfBombsButton().setEnabled(false);
+                    bs.getMinusButton().setEnabled(false);
+                    bs.getPlusButton().setEnabled(false);
+                });
+            }
+        }
+    }
+    public void resetGrid() {
+        initializeGrid();
+    }
+
 }

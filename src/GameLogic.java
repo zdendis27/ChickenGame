@@ -39,6 +39,8 @@ public class GameLogic {
 
     public void createBones() {
         u.loadUserBalance();
+        bones.clear();
+
         for (int i = 0; i < u.getNumberOfBombs(); i++){
             bones.add(false);
         }
@@ -49,6 +51,7 @@ public class GameLogic {
         Collections.shuffle(bones);
         System.out.println(bones);
     }
+
 
 
 

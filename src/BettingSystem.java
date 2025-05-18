@@ -6,29 +6,31 @@ public class BettingSystem {
     private int numberOfBombs;
     private int multiplyer = 2;
     private int currentBet = 0;
-    private int currentBombs = 0;
     private ImageIcon minusIcon = LoadIcons.loadResizedIcon("src/images/minusIcon.png",100,100);
     private ImageIcon plusIcon = LoadIcons.loadResizedIcon("src/images/plusIcon.png",100,100);
+    private ImageIcon bombIcon = LoadIcons.loadResizedIcon("src/images/bombIconn.png",100,50);
     private JPanel stackedCurrentBalancePanel =  new JPanel(new GridLayout(2, 1));
     private JLabel currentBetLabel = new JLabel(String.valueOf(currentBet));
     private GamePanelButtons minusButton = new GamePanelButtons("");
     private GamePanelButtons plusButton = new GamePanelButtons("");
     private JPanel stackedCurrentBombsPanel =  new JPanel(new GridLayout(2,1));
     private JLabel currentNumberOfBombsLabel = new JLabel();
-    private GamePanelButtons chooseNumberOfBombsButton = new GamePanelButtons("Choose bombs:");
-    User u = new User();
-
+    private GamePanelButtons chooseNumberOfBombsButton = new GamePanelButtons("");
+    private User u = new User();
+    private GamePanel gamePanel;
+    private int currentBombs = 0;
     public BettingSystem() {
         u.loadUserBalance();
+        currentBombs = u.getNumberOfBombs();
 
         stackedCurrentBalancePanel.setOpaque(false);
 
         JLabel line1 = new JLabel("Current bet:");
-        line1.setFont(new Font("Impact", Font.BOLD, 12));
+        line1.setFont(new Font("Arial", Font.BOLD, 14));
         line1.setHorizontalAlignment(SwingConstants.CENTER);
 
         currentBetLabel = new JLabel(String.valueOf(currentBet));
-        currentBetLabel.setFont(new Font("Impact", Font.BOLD, 12));
+        currentBetLabel.setFont(new Font("Arial", Font.BOLD, 16));
         currentBetLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         stackedCurrentBalancePanel.add(line1);
@@ -77,15 +79,23 @@ public class BettingSystem {
 
         stackedCurrentBombsPanel.setOpaque(false);
         JLabel bombsFirstLine = new JLabel("Current bombs:");
-        bombsFirstLine.setFont(new Font("Impact", Font.BOLD, 12));
+        bombsFirstLine.setFont(new Font("Arial", Font.BOLD, 14));
         bombsFirstLine.setHorizontalAlignment(SwingConstants.CENTER);
 
         currentNumberOfBombsLabel = new JLabel(String.valueOf(currentBombs));
-        currentNumberOfBombsLabel.setFont(new Font("Impact", Font.BOLD, 12));
+        currentNumberOfBombsLabel.setFont(new Font("Arial", Font.BOLD, 16));
         currentNumberOfBombsLabel.setHorizontalAlignment(SwingConstants.CENTER);
         stackedCurrentBombsPanel.add(bombsFirstLine);
         stackedCurrentBombsPanel.add(currentNumberOfBombsLabel);
 
+
+
+
+        chooseNumberOfBombsButton.setIcon(bombIcon);
+        chooseNumberOfBombsButton.setBorderPainted(false);
+        chooseNumberOfBombsButton.setContentAreaFilled(false);
+        chooseNumberOfBombsButton.setFocusPainted(false);
+        chooseNumberOfBombsButton.setOpaque(false);
         chooseNumberOfBombsButton.addActionListener(e -> {
 
                 String[] options = {"1", "2", "3"};
@@ -104,6 +114,7 @@ public class BettingSystem {
                     int selectedBombs = Integer.parseInt(options[choice]);
                     setCurrentBombs(selectedBombs);
                     u.updateNumberOfBombs(selectedBombs);
+                    gamePanel.resetGrid();
                 }
 
 
@@ -159,5 +170,8 @@ public class BettingSystem {
 
     public void setChooseNumberOfBombsButton(GamePanelButtons chooseNumberOfBombsButton) {
         this.chooseNumberOfBombsButton = chooseNumberOfBombsButton;
+    }
+    public void setGamePanel(GamePanel gamePanel) {
+        this.gamePanel = gamePanel;
     }
 }
