@@ -6,8 +6,6 @@ public class GamePanel extends JPanel {
     private JButton[][] gridButtons = new JButton[5][5];
     private GamePanelMenu popupMenu;
     private ImageIcon menuIcon = LoadIcons.loadResizedIcon("src/images/menuIcon.png",48,48);
-    private ImageIcon minusIcon = LoadIcons.loadResizedIcon("src/images/minusIcon.png",100,100);
-    private ImageIcon plusIcon = LoadIcons.loadResizedIcon("src/images/plusIcon.png",100,100);
     GameLogic gl = new GameLogic ();
 
     public GamePanel(Frame frame) {
@@ -69,7 +67,7 @@ public class GamePanel extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.insets = new Insets(-100, 0, 0, 0);
+        gbc.insets = new Insets(-70, 0, 0, 0);
         centerWrapper.add(gridPanel, gbc);
 
 
@@ -78,31 +76,15 @@ public class GamePanel extends JPanel {
         BettingSystem bs = new BettingSystem();
 
 
-        GamePanelButtons minusButton = new GamePanelButtons("");
-        minusButton.setIcon(minusIcon);
-        minusButton.setBorderPainted(false);
-        minusButton.setContentAreaFilled(false);
-        minusButton.setFocusPainted(false);
-        minusButton.setOpaque(false);
-
-
-        GamePanelButtons plusButton = new GamePanelButtons("");
-        plusButton.setIcon(plusIcon);
-        plusButton.setBorderPainted(false);
-        plusButton.setContentAreaFilled(false);
-        plusButton.setFocusPainted(false);
-        plusButton.setOpaque(false);
-
-
-        GamePanelButtons gp3 = new GamePanelButtons("Vyber pocet");
 
 
 
-        bottomPanel.add(minusButton);
-        bottomPanel.add(bs.getStackedCurrentBalanceLabel());
-        bottomPanel.add(plusButton);
-        bottomPanel.add(bs.getCurrentBombsLabel());
-        bottomPanel.add(gp3);
+        bottomPanel.add(bs.getMinusButton());
+        bottomPanel.add(bs.getStackedCurrentBalancePanel());
+        bottomPanel.add(bs.getPlusButton());
+        bottomPanel.add(bs.getStackedCurrentBombsPanel());
+        bottomPanel.add(bs.getStackedCurrentBombsPanel());
+        bottomPanel.add(bs.getChooseNumberOfBombsButton());
 
 
 

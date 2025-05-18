@@ -50,4 +50,74 @@ public class User {
         }
     }
 
+    public void updateUserBalance(int newBalance) {
+        try {
+            File file = new File("src/files/userData");
+            if (!file.exists()) {
+                System.err.println("File does not exist.");
+                return;
+            }
+
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line = br.readLine();
+            br.close();
+
+            if (line != null) {
+                String[] parts = line.split(",");
+                if (parts.length == 2) {
+                    int bombs = Integer.parseInt(parts[1].trim());
+                    try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
+                        bw.write(newBalance + "," + bombs);
+                    }
+                } else {
+                    System.err.println("Invalid file format.");
+                }
+            } else {
+                System.err.println("File is empty.");
+            }
+
+        } catch (IOException | NumberFormatException e) {
+            System.err.println("Failed to update user balance: " + e.getMessage());
+        }
+    }
+
+    public void updateNumberOfBombs(int newBombs) {
+        try {
+            File file = new File("src/files/userData");
+            if (!file.exists()) {
+                System.err.println("File does not exist.");
+                return;
+            }
+
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line = br.readLine();
+            br.close();
+
+            if (line != null) {
+                String[] parts = line.split(",");
+                if (parts.length == 2) {
+                    int balance = Integer.parseInt(parts[0].trim());
+
+
+                    if (newBombs > 3) {
+                        throw new NumberFormatException("Number of bombs cannot be greater than 3.");
+                    }
+
+                    try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
+                        bw.write(balance + "," + newBombs);
+                    }
+                } else {
+                    System.err.println("Invalid file format.");
+                }
+            } else {
+                System.err.println("File is empty.");
+            }
+
+        } catch (IOException | NumberFormatException e) {
+            System.err.println("Failed to update number of bombs: " + e.getMessage());
+        }
+    }
+
+
+
 }
