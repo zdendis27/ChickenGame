@@ -6,6 +6,7 @@ public class BettingSystem {
     private int numberOfBombs;
     private int multiplyer = 2;
     private int currentBet = 0;
+    private int revealedBones = 0;
     private ImageIcon minusIcon = LoadIcons.loadResizedIcon("src/images/minusIcon.png",100,100);
     private ImageIcon plusIcon = LoadIcons.loadResizedIcon("src/images/plusIcon.png",100,100);
     private ImageIcon bombIcon = LoadIcons.loadResizedIcon("src/images/bombIconn.png",100,50);
@@ -123,6 +124,34 @@ public class BettingSystem {
 
     }
 
+    public void bet() {
+        User u = new User();
+        u.loadUserBalance();
+        if (currentBet > 0 && currentBet <= u.getUserBalance()) {
+            int updatedBalance = (int) (u.getUserBalance() - currentBet);
+            u.updateUserBalance(updatedBalance);
+            System.out.println("Updated ballance: " + updatedBalance);
+        } else {
+            System.out.println("You dont have enough money or you are betting 0.");
+        }
+    }
+
+    public void rewardIfWin() {
+        u.loadUserBalance();
+        int reward = currentBet * multiplyer * u.getNumberOfBombs() * revealedBones;
+        int updatedBalance = (int) (u.getUserBalance() + reward);
+        u.updateUserBalance(updatedBalance);
+        System.out.println("Win: " + reward + ", new Ballance: " + updatedBalance);
+    }
+
+
+    public int getRewardAmount() {
+        return (int) (currentBet * multiplyer * revealedBones);
+    }
+
+
+
+
     public JPanel getStackedCurrentBalancePanel() {
         return stackedCurrentBalancePanel;
     }
@@ -173,5 +202,20 @@ public class BettingSystem {
     }
     public void setGamePanel(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
+    }
+    public void plusRevealedBones() {
+        revealedBones++;
+    }
+
+    public void resetRevealedBones() {
+        revealedBones = 0;
+    }
+
+    public int getRevealedBones() {
+        return revealedBones;
+    }
+
+    public void setRevealedBones(int revealedBones) {
+        this.revealedBones = revealedBones;
     }
 }

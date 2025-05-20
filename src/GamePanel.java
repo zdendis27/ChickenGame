@@ -7,8 +7,12 @@ public class GamePanel extends JPanel {
     private JButton[][] gridButtons = new JButton[5][5];
     private GamePanelMenu popupMenu;
     private ImageIcon menuIcon = LoadIcons.loadResizedIcon("src/images/menuIcon.png",48,48);
-    GameLogic gl = new GameLogic ();
-    BettingSystem bs = new BettingSystem();
+    private GameLogic gl = new GameLogic ();
+    private GamePanelButtons startButton = new GamePanelButtons("START");
+    private BettingSystem bs = new BettingSystem();
+    private boolean gameRunning = false;
+
+
 
 
     public GamePanel(Frame frame) {
@@ -30,10 +34,26 @@ public class GamePanel extends JPanel {
             }
         }
 
-        initializeGrid();
+        startButton.addActionListener(e -> {
+            if (!gameRunning) {
+                initializeGrid();
+                bs.bet();
+                bs.getChooseNumberOfBombsButton().setEnabled(false);
+                bs.getMinusButton().setEnabled(false);
+                bs.getPlusButton().setEnabled(false);
+                gameRunning = true;
+                startButton.setText("END GAME");
+            } else {
 
 
-
+                bs.rewardIfWin();
+                if (bs.getRevealedBones() > 0) {
+                    JOptionPane.showMessageDialog(this, "Vyhrál jsi " + bs.getRewardAmount() + "!", "Výhra", JOptionPane.INFORMATION_MESSAGE);
+                }
+                disableAllButtons();
+                prepareForNewGame();
+            }
+        });
 
 
         popupMenu = new GamePanelMenu(frame);
@@ -61,19 +81,12 @@ public class GamePanel extends JPanel {
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER,20,10));
 
 
-
-
-
-
         bottomPanel.add(bs.getMinusButton());
         bottomPanel.add(bs.getStackedCurrentBalancePanel());
         bottomPanel.add(bs.getPlusButton());
-        bottomPanel.add(bs.getStackedCurrentBombsPanel());
+        bottomPanel.add(startButton);
         bottomPanel.add(bs.getStackedCurrentBombsPanel());
         bottomPanel.add(bs.getChooseNumberOfBombsButton());
-
-
-
 
 
         this.add(topPanel, BorderLayout.NORTH);
@@ -81,37 +94,40 @@ public class GamePanel extends JPanel {
         this.add(bottomPanel, BorderLayout.SOUTH);
     }
 
-    public void gameOver(Frame frame){
+    public void gameOver(Frame frame) {
+        gameRunning = false;
+        disableAllButtons();
         int choice = JOptionPane.showConfirmDialog(this, "Konec hry! Chceš hrát znovu?", "Game Over", JOptionPane.YES_NO_OPTION);
         if (choice == JOptionPane.YES_OPTION) {
+            disableAllButtons();
             frame.restartGame();
-
-
-
-        }else{
-            for(int row = 0; row < 5; row++){
-                for(int col = 0; col < 5; col++){
-                    gridButtons[row][col].setEnabled(false);
-                }
-            }
+        } else {
+            disableAllButtons();
+            bs.getChooseNumberOfBombsButton().setEnabled(true);
+            bs.getMinusButton().setEnabled(true);
+            bs.getPlusButton().setEnabled(true);
+            startButton.setText("START");
         }
-
-
     }
+
+
     private void initializeGrid() {
         gl.createBones();
+        bs.resetRevealedBones();
         int index = 0;
 
         for (int row = 0; row < 5; row++) {
             for (int col = 0; col < 5; col++) {
                 JButton button = gridButtons[row][col];
-                button.setEnabled(true);
                 button.setBackground(null);
+                button.setEnabled(true);
 
                 boolean isBone = gl.getBones().get(index);
                 int finalRow = row;
                 int finalCol = col;
                 index++;
+
+
 
 
                 for (ActionListener al : button.getActionListeners()) {
@@ -124,12 +140,10 @@ public class GamePanel extends JPanel {
                         button.setBackground(Color.RED);
                         gameOver((Frame) SwingUtilities.getWindowAncestor(this));
                     } else {
+                        bs.plusRevealedBones();
                         button.setBackground(Color.GREEN);
                     }
                     button.setEnabled(false);
-                    bs.getChooseNumberOfBombsButton().setEnabled(false);
-                    bs.getMinusButton().setEnabled(false);
-                    bs.getPlusButton().setEnabled(false);
                 });
             }
         }
@@ -137,5 +151,39 @@ public class GamePanel extends JPanel {
     public void resetGrid() {
         initializeGrid();
     }
+
+    private void disableAllButtons() {
+        int index = 0;
+        for (int row = 0; row < 5; row++) {
+            for (int col = 0; col < 5; col++) {
+                JButton button = gridButtons[row][col];
+                boolean isBone = gl.getBones().get(index);
+                index++;
+
+                if (!button.isEnabled()) {
+                    continue;
+                }
+
+                if (isBone) {
+                    button.setBackground(Color.GREEN);
+                } else {
+                    button.setBackground(Color.RED);
+                }
+
+                button.setEnabled(false);
+            }
+        }
+    }
+
+
+    private void prepareForNewGame() {
+        bs.getChooseNumberOfBombsButton().setEnabled(true);
+        bs.getMinusButton().setEnabled(true);
+        bs.getPlusButton().setEnabled(true);
+        startButton.setText("START");
+        gameRunning = false;
+    }
+
+
 
 }
