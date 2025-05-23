@@ -1,0 +1,4 @@
+- Use the mouse to click tiles on the grid.
+- Use the bet buttons to set your stake.
+- Use the bomb icon to choose number of bombs.
+- You can stop the game at any moment to claim your reward.

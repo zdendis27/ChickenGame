@@ -1,0 +1,4 @@
+- Use the + and - buttons to adjust your bet.
+- Minimum bet is 10, maximum is 100.
+- Make sure your bet does not exceed your balance.
+- Your bet is deducted once you start the game.

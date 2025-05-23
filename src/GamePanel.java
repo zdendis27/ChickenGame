@@ -11,6 +11,7 @@ public class GamePanel extends JPanel {
     private GamePanelButtons startButton = new GamePanelButtons("START");
     private BettingSystem bs = new BettingSystem();
     private boolean gameRunning = false;
+    private  User u = new User();
 
 
 
@@ -48,6 +49,7 @@ public class GamePanel extends JPanel {
 
                 bs.rewardIfWin();
                 if (bs.getRevealedBones() > 0) {
+                    u.loadUserBalance();
                     JOptionPane.showMessageDialog(this, "Vyhrál jsi " + bs.getRewardAmount() + "!", "Výhra", JOptionPane.INFORMATION_MESSAGE);
                 }
                 disableAllButtons();
@@ -57,7 +59,7 @@ public class GamePanel extends JPanel {
 
 
         popupMenu = new GamePanelMenu(frame);
-        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel topPanel = new JPanel(new BorderLayout());
         JButton menuButton = new JButton();
         menuButton.setIcon(menuIcon);
         menuButton.setBorderPainted(false);
@@ -67,7 +69,8 @@ public class GamePanel extends JPanel {
         menuButton.addActionListener(e -> {
             popupMenu.showPopupMenu(menuButton, frame);
         });
-        topPanel.add(menuButton);
+        topPanel.add(menuButton,  BorderLayout.EAST);
+        topPanel.add(bs.getCurrentBallanceLabel(), BorderLayout.WEST);
 
         JPanel centerWrapper = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -101,6 +104,7 @@ public class GamePanel extends JPanel {
         if (choice == JOptionPane.YES_OPTION) {
             disableAllButtons();
             frame.restartGame();
+            bs.updateBalanceLabel();
         } else {
             disableAllButtons();
             bs.getChooseNumberOfBombsButton().setEnabled(true);
@@ -177,6 +181,7 @@ public class GamePanel extends JPanel {
 
 
     private void prepareForNewGame() {
+        bs.updateBalanceLabel();
         bs.getChooseNumberOfBombsButton().setEnabled(true);
         bs.getMinusButton().setEnabled(true);
         bs.getPlusButton().setEnabled(true);

@@ -1,0 +1,4 @@
+- Click on a tile to reveal it.
+- If there's a bomb: you lose.
+- If there's no bomb: you can continue.
+- The more tiles you reveal, the higher your reward.

@@ -1,0 +1,4 @@
+- The goal is to reveal as many safe tiles as possible.
+- Every correct reveal increases your multiplier.
+- You can stop at any time and collect your winnings.
+- But if you hit a bomb — you lose the round and your bet.

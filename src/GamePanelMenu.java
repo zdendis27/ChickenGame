@@ -23,6 +23,7 @@ public GamePanelMenu(Frame frame) {
     helpItem.addActionListener(e -> {
         frame.switchTo("help");
 
+
     });
 }
 

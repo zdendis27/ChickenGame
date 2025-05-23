@@ -9,6 +9,8 @@ public class Frame extends JFrame {
     JPanel cards = new JPanel(cardLayout);
     private GamePanel gamePanel;
     private Menu menuPanel;
+    private Help helpPanel;
+    private BettingSystem bs = new BettingSystem();
 
 
 
@@ -24,9 +26,13 @@ public class Frame extends JFrame {
 
         menuPanel= new Menu(this);
         gamePanel = new GamePanel(this);
+        helpPanel = new Help(this);
+
 
         cards.add(menuPanel,"menu");
         cards.add(gamePanel, "game");
+        cards.add(helpPanel, "help");
+
 
 
 

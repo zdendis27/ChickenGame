@@ -16,6 +16,7 @@ public class BettingSystem {
     private GamePanelButtons plusButton = new GamePanelButtons("");
     private JPanel stackedCurrentBombsPanel =  new JPanel(new GridLayout(2,1));
     private JLabel currentNumberOfBombsLabel = new JLabel();
+    private JLabel currentBallanceLabel =new JLabel();
     private GamePanelButtons chooseNumberOfBombsButton = new GamePanelButtons("");
     private User u = new User();
     private GamePanel gamePanel;
@@ -89,6 +90,11 @@ public class BettingSystem {
         stackedCurrentBombsPanel.add(bombsFirstLine);
         stackedCurrentBombsPanel.add(currentNumberOfBombsLabel);
 
+        currentBallanceLabel = new JLabel("Balance: " + String.valueOf(u.getUserBalance()));
+        currentBallanceLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        currentBallanceLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+
+
 
 
 
@@ -125,7 +131,6 @@ public class BettingSystem {
     }
 
     public void bet() {
-        User u = new User();
         u.loadUserBalance();
         if (currentBet > 0 && currentBet <= u.getUserBalance()) {
             int updatedBalance = (int) (u.getUserBalance() - currentBet);
@@ -134,6 +139,7 @@ public class BettingSystem {
         } else {
             System.out.println("You dont have enough money or you are betting 0.");
         }
+        updateBalanceLabel();
     }
 
     public void rewardIfWin() {
@@ -142,11 +148,19 @@ public class BettingSystem {
         int updatedBalance = (int) (u.getUserBalance() + reward);
         u.updateUserBalance(updatedBalance);
         System.out.println("Win: " + reward + ", new Ballance: " + updatedBalance);
+        updateBalanceLabel();
+    }
+
+    public void updateBalanceLabel() {
+        u.loadUserBalance();
+        currentBallanceLabel.setText("Zůstatek: " + u.getUserBalance());
     }
 
 
+
     public int getRewardAmount() {
-        return (int) (currentBet * multiplyer * revealedBones);
+        u.loadUserBalance();
+        return (int) (currentBet * multiplyer * revealedBones*u.getNumberOfBombs());
     }
 
 
@@ -217,5 +231,13 @@ public class BettingSystem {
 
     public void setRevealedBones(int revealedBones) {
         this.revealedBones = revealedBones;
+    }
+
+    public JLabel getCurrentBallanceLabel() {
+        return currentBallanceLabel;
+    }
+
+    public void setCurrentBallanceLabel(JLabel currentBallanceLabel) {
+        this.currentBallanceLabel = currentBallanceLabel;
     }
 }
