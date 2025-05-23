@@ -12,6 +12,7 @@ public class GamePanel extends JPanel {
     private BettingSystem bs = new BettingSystem();
     private boolean gameRunning = false;
     private  User u = new User();
+    private Pet selectedPet;
 
 
 
@@ -189,6 +190,7 @@ public class GamePanel extends JPanel {
         gameRunning = false;
     }
 
-
-
+    public void setSelectedPet(Pet selectedPet) {
+        this.selectedPet = selectedPet;
+    }
 }

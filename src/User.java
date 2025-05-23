@@ -1,10 +1,12 @@
 import java.io.*;
+import java.util.ArrayList;
 
 public class User {
 
 
     private double userBalance;
     private int numberOfBombs;
+    private ArrayList<Pet> ownedPets;
 
     public int getNumberOfBombs() {
         return numberOfBombs;
@@ -117,6 +119,8 @@ public class User {
             System.err.println("Failed to update number of bombs: " + e.getMessage());
         }
     }
+
+
 
 
 

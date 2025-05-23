@@ -10,6 +10,7 @@ public class Frame extends JFrame {
     private GamePanel gamePanel;
     private Menu menuPanel;
     private Help helpPanel;
+    private ShopPanel  shopPanel;
     private BettingSystem bs = new BettingSystem();
 
 
@@ -27,11 +28,13 @@ public class Frame extends JFrame {
         menuPanel= new Menu(this);
         gamePanel = new GamePanel(this);
         helpPanel = new Help(this);
+        shopPanel = new ShopPanel(this);
 
 
         cards.add(menuPanel,"menu");
         cards.add(gamePanel, "game");
         cards.add(helpPanel, "help");
+        cards.add(shopPanel, "shop");
 
 
 
