@@ -153,7 +153,7 @@ public class BettingSystem {
 
     public void updateBalanceLabel() {
         u.loadUserBalance();
-        currentBallanceLabel.setText("Zůstatek: " + u.getUserBalance());
+        currentBallanceLabel.setText("Balance: " + u.getUserBalance());
     }
 
 

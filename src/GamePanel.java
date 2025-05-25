@@ -18,20 +18,21 @@ public class GamePanel extends JPanel {
     private JLabel petLabel;
     private ImageIcon chickenIcon = new ImageIcon("src/images/chicken.png");
     private ImageIcon bombIcon = new ImageIcon("src/images/bomb.png");
+    private Image bqIcon;
 
 
 
 
     public GamePanel(Frame frame) {
+        bqIcon = new ImageIcon("src/images/gamepanel_bq.png").getImage();
+        u.resetUserBalanceOnStartup();
+        bs.updateBalanceLabel();
         bs.setGamePanel(this);
         this.setLayout(new BorderLayout());
-        int index = 0;
 
 
         JPanel gridPanel = new JPanel(new GridLayout(5, 5));
         gridPanel.setPreferredSize(new Dimension(400, 400));
-
-
 
         for (int row = 0; row < 5; row++) {
             for (int col = 0; col < 5; col++) {
@@ -90,8 +91,6 @@ public class GamePanel extends JPanel {
         gbc.insets = new Insets(-70, 0, 0, 0);
         centerWrapper.add(gridPanel, gbc);
 
-
-
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER,20,10));
 
 
@@ -106,24 +105,26 @@ public class GamePanel extends JPanel {
         this.add(topPanel, BorderLayout.NORTH);
         this.add(centerWrapper, BorderLayout.CENTER);
         this.add(bottomPanel, BorderLayout.SOUTH);
+
+        gridPanel.setOpaque(false);
+        bottomPanel.setOpaque(false);
+        topPanel.setOpaque(false);
+        centerWrapper.setOpaque(false);
+
     }
 
     public void gameOver(Frame frame) {
         gameRunning = false;
         disableAllButtons();
-        int choice = JOptionPane.showConfirmDialog(this, "Konec hry! Chceš hrát znovu?", "Game Over", JOptionPane.YES_NO_OPTION);
-        if (choice == JOptionPane.YES_OPTION) {
-            disableAllButtons();
-            frame.restartGame();
-            bs.updateBalanceLabel();
-        } else {
-            disableAllButtons();
-            bs.getChooseNumberOfBombsButton().setEnabled(true);
-            bs.getMinusButton().setEnabled(true);
-            bs.getPlusButton().setEnabled(true);
-            startButton.setText("START");
-        }
+
+        JOptionPane.showMessageDialog(this, "Game over!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+
+        bs.getChooseNumberOfBombsButton().setEnabled(true);
+        bs.getMinusButton().setEnabled(true);
+        bs.getPlusButton().setEnabled(true);
+        startButton.setText("START");
     }
+
 
 
     private void initializeGrid() {
@@ -137,13 +138,14 @@ public class GamePanel extends JPanel {
                 button.setBackground(null);
                 button.setEnabled(true);
 
+                button.setIcon(null);
+                button.setDisabledIcon(null);
+
+
                 boolean isBone = gl.getBones().get(index);
                 int finalRow = row;
                 int finalCol = col;
                 index++;
-
-
-
 
                 for (ActionListener al : button.getActionListeners()) {
                     button.removeActionListener(al);
@@ -172,8 +174,9 @@ public class GamePanel extends JPanel {
         }
     }
     public void resetGrid() {
-        initializeGrid();
+        animateGridReset();
     }
+
 
     private void disableAllButtons() {
         int index = 0;
@@ -222,4 +225,37 @@ public class GamePanel extends JPanel {
             petLabel.repaint();
         }
     }
+
+    private void animateGridReset() {
+        int delay = 50;
+        Timer timer = new Timer(delay, null);
+        final int[] index = {0};
+
+        timer.addActionListener(e -> {
+            if (index[0] >= 25) {
+                ((Timer) e.getSource()).stop();
+                initializeGrid();
+                return;
+            }
+
+            int row = index[0] / 5;
+            int col = index[0] % 5;
+            JButton button = gridButtons[row][col];
+
+            button.setIcon(null);
+            button.setDisabledIcon(null);
+            button.setEnabled(true);
+            index[0]++;
+        });
+
+        timer.start();
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(bqIcon, 0, 0, getWidth(), getHeight(), this);
+    }
+
+
 }

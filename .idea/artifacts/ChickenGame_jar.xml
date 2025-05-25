@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ChickenGame:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/ChickenGame_jar</output-path>
+    <root id="archive" name="ChickenGame.jar">
+      <element id="module-output" name="ChickenGame" />
+    </root>
+  </artifact>
+</component>

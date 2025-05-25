@@ -120,6 +120,49 @@ public class User {
         }
     }
 
+    public void resetUserBalanceOnStartup() {
+        File file = new File("src/files/userData");
+
+        try {
+            int bombs = 1;
+            if (!file.exists()) {
+
+                file.getParentFile().mkdirs();
+                try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
+                    bw.write("100,1");
+                    System.out.println("userData file created with default values.");
+                    return;
+                }
+            }
+
+
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line = br.readLine();
+            br.close();
+
+            if (line != null) {
+                String[] parts = line.split(",");
+                if (parts.length == 2) {
+                    bombs = Integer.parseInt(parts[1].trim());
+                } else {
+                    System.err.println("Invalid file format. Using default bomb value.");
+                }
+            } else {
+                System.err.println("File is empty. Using default bomb value.");
+            }
+
+
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
+                bw.write("100," + bombs);
+                System.out.println("User balance reset to 100 on startup.");
+            }
+
+        } catch (IOException | NumberFormatException e) {
+            System.err.println("Error while resetting user balance: " + e.getMessage());
+        }
+    }
+
+
 
 
 
