@@ -10,9 +10,11 @@ public class ShopPanel extends JPanel {
     private ArrayList<Pet> pets;
     private User u = new User();
     private GamePanel gamePanel;
+    private JButton backButton;
 
 
-    public ShopPanel(Frame frame) {
+    public ShopPanel(Frame frame, GamePanel gamePanel) {
+        this.gamePanel = gamePanel;
         this.setLayout(new BorderLayout());
         this.setBackground(Color.white);
 
@@ -33,6 +35,11 @@ public class ShopPanel extends JPanel {
         }
 
         this.add(petGrid, BorderLayout.CENTER);
+        backButton = new JButton("BACK");
+        backButton.setBackground(Color.WHITE);
+        backButton.setFont(new Font("Arial", Font.BOLD, 20));
+        backButton.addActionListener(e -> frame.switchTo("game"));
+        this.add(backButton, BorderLayout.SOUTH);
     }
 
     private JButton createPetButton(Pet pet) {

@@ -21,12 +21,13 @@ public class ShopItemsLoad {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(",");
-                if (parts.length == 3) {
+                if (parts.length == 4) {
                     String imagePath = parts[0].trim();
                     String name = parts[1].trim();
                     int price = Integer.parseInt(parts[2].trim());
+                    String gifPath = parts[3].trim();
 
-                    Pet pet = new Pet(imagePath, name, price);
+                    Pet pet = new Pet(gifPath, imagePath, name, price);
                     allPets.add(pet);
                 }
             }

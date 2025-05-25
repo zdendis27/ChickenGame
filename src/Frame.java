@@ -28,7 +28,7 @@ public class Frame extends JFrame {
         menuPanel= new Menu(this);
         gamePanel = new GamePanel(this);
         helpPanel = new Help(this);
-        shopPanel = new ShopPanel(this);
+        shopPanel = new ShopPanel(this,gamePanel);
 
 
         cards.add(menuPanel,"menu");

@@ -9,10 +9,15 @@ public class GamePanel extends JPanel {
     private ImageIcon menuIcon = LoadIcons.loadResizedIcon("src/images/menuIcon.png",48,48);
     private GameLogic gl = new GameLogic ();
     private GamePanelButtons startButton = new GamePanelButtons("START");
+    private ImageIcon petGif;
     private BettingSystem bs = new BettingSystem();
     private boolean gameRunning = false;
     private  User u = new User();
     private Pet selectedPet;
+    private JPanel topPanel;
+    private JLabel petLabel;
+    private ImageIcon chickenIcon = new ImageIcon("src/images/chicken.png");
+    private ImageIcon bombIcon = new ImageIcon("src/images/bomb.png");
 
 
 
@@ -60,7 +65,7 @@ public class GamePanel extends JPanel {
 
 
         popupMenu = new GamePanelMenu(frame);
-        JPanel topPanel = new JPanel(new BorderLayout());
+        topPanel = new JPanel(new BorderLayout());
         JButton menuButton = new JButton();
         menuButton.setIcon(menuIcon);
         menuButton.setBorderPainted(false);
@@ -70,6 +75,11 @@ public class GamePanel extends JPanel {
         menuButton.addActionListener(e -> {
             popupMenu.showPopupMenu(menuButton, frame);
         });
+
+
+        petLabel = new JLabel();
+        petLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        topPanel.add(petLabel, BorderLayout.CENTER);
         topPanel.add(menuButton,  BorderLayout.EAST);
         topPanel.add(bs.getCurrentBallanceLabel(), BorderLayout.WEST);
 
@@ -140,15 +150,23 @@ public class GamePanel extends JPanel {
                 }
 
                 button.addActionListener(e -> {
+                    if(!gameRunning) return;
+
                     System.out.println("Kliknuto na pole [" + finalRow + ", " + finalCol + "]");
+
+                    button.setEnabled(false);
+
+
                     if (!isBone) {
-                        button.setBackground(Color.RED);
+                        button.setIcon(bombIcon);
+                        button.setDisabledIcon(bombIcon);
                         gameOver((Frame) SwingUtilities.getWindowAncestor(this));
                     } else {
                         bs.plusRevealedBones();
-                        button.setBackground(Color.GREEN);
+                        button.setIcon(chickenIcon);
+                        button.setDisabledIcon(chickenIcon);
                     }
-                    button.setEnabled(false);
+
                 });
             }
         }
@@ -169,13 +187,16 @@ public class GamePanel extends JPanel {
                     continue;
                 }
 
+                button.setEnabled(false);
+                button.setIcon(null);
                 if (isBone) {
-                    button.setBackground(Color.GREEN);
+                    button.setDisabledIcon(chickenIcon);
+                    button.setIcon(chickenIcon);
                 } else {
-                    button.setBackground(Color.RED);
+                    button.setDisabledIcon(bombIcon);
+                    button.setIcon(bombIcon);
                 }
 
-                button.setEnabled(false);
             }
         }
     }
@@ -192,5 +213,13 @@ public class GamePanel extends JPanel {
 
     public void setSelectedPet(Pet selectedPet) {
         this.selectedPet = selectedPet;
+
+        if (petLabel != null && selectedPet != null) {
+            System.out.println(selectedPet);
+            ImageIcon petGif = new ImageIcon(selectedPet.getGifPath());
+            petLabel.setIcon(petGif);
+            petLabel.revalidate();
+            petLabel.repaint();
+        }
     }
 }
