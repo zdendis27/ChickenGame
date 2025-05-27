@@ -21,6 +21,8 @@ public class BettingSystem {
     private User u = new User();
     private GamePanel gamePanel;
     private int currentBombs = 0;
+
+
     public BettingSystem() {
         u.loadUserBalance();
         currentBombs = u.getNumberOfBombs();
@@ -135,12 +137,29 @@ public class BettingSystem {
         if (currentBet > 0 && currentBet <= u.getUserBalance()) {
             int updatedBalance = (int) (u.getUserBalance() - currentBet);
             u.updateUserBalance(updatedBalance);
-            System.out.println("Updated ballance: " + updatedBalance);
+            System.out.println("Updated balance: " + updatedBalance);
+            updateBalanceLabel();
         } else {
-            System.out.println("You dont have enough money or you are betting 0.");
+
+            JOptionPane.showMessageDialog(
+                    null,
+                    "You do not have enough money to place this bet!",
+                    "You are broke...",
+                    JOptionPane.WARNING_MESSAGE
+            );
+            updateBalanceLabel();
+
+
+
         }
-        updateBalanceLabel();
+
+
+
+
+
+
     }
+
 
     public void rewardIfWin() {
         u.loadUserBalance();
@@ -153,8 +172,26 @@ public class BettingSystem {
 
     public void updateBalanceLabel() {
         u.loadUserBalance();
+
+
         currentBallanceLabel.setText("Balance: " + u.getUserBalance());
     }
+
+    public void checkAndGiveMoneyRain() {
+        u.loadUserBalance();
+        if (u.getUserBalance() < 10) {
+            int newBalance = (int) (u.getUserBalance() + 100);
+            u.updateUserBalance(newBalance);
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Money rain! You received 100!",
+                    "How lucky you are...",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+            updateBalanceLabel();
+        }
+    }
+
 
 
 

@@ -9,7 +9,6 @@ public class GamePanel extends JPanel {
     private ImageIcon menuIcon = LoadIcons.loadResizedIcon("src/images/menuIcon.png",48,48);
     private GameLogic gl = new GameLogic ();
     private GamePanelButtons startButton = new GamePanelButtons("START");
-    private ImageIcon petGif;
     private BettingSystem bs = new BettingSystem();
     private boolean gameRunning = false;
     private  User u = new User();
@@ -42,6 +41,7 @@ public class GamePanel extends JPanel {
             }
         }
 
+        startButton.setBackground(Color.white);
         startButton.addActionListener(e -> {
             if (!gameRunning) {
                 initializeGrid();
@@ -123,6 +123,7 @@ public class GamePanel extends JPanel {
         bs.getMinusButton().setEnabled(true);
         bs.getPlusButton().setEnabled(true);
         startButton.setText("START");
+        bs.checkAndGiveMoneyRain();
     }
 
 

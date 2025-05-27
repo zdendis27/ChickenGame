@@ -38,6 +38,7 @@ public class Help extends JPanel {
         appendHelpBlockFromFile("Bomb Selection", new File("src/help/bombs.txt"));
         appendHelpBlockFromFile("Game Goal", new File("src/help/goal.txt"));
         appendHelpBlockFromFile("Controls", new File("src/help/controls.txt"));
+        appendHelpBlockFromFile("Shop", new File("src/help/shop.txt"));
     }
 
     private void appendHelpBlockFromFile(String title, File file) {

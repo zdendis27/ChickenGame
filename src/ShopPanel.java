@@ -11,16 +11,16 @@ public class ShopPanel extends JPanel {
     private User u = new User();
     private GamePanel gamePanel;
     private JButton backButton;
+    private Image bqIcon;
 
 
     public ShopPanel(Frame frame, GamePanel gamePanel) {
+        bqIcon = new ImageIcon("src/images/shoppanel_bq.png").getImage();
         this.gamePanel = gamePanel;
         this.setLayout(new BorderLayout());
         this.setBackground(Color.white);
 
-        heading = new JLabel("SHOP", SwingConstants.CENTER);
-        heading.setFont(new Font("Arial", Font.BOLD, 60));
-        this.add(heading, BorderLayout.NORTH);
+
 
 
         pets = loadPets();
@@ -40,11 +40,12 @@ public class ShopPanel extends JPanel {
         backButton.setFont(new Font("Arial", Font.BOLD, 20));
         backButton.addActionListener(e -> frame.switchTo("game"));
         this.add(backButton, BorderLayout.SOUTH);
+        petGrid.setOpaque(false);
     }
 
     private JButton createPetButton(Pet pet) {
         u.loadUserBalance();
-        ImageIcon icon = new ImageIcon(pet.getImagePath());
+        ImageIcon icon = new ImageIcon(LoadIcons.loadResizedIcon(pet.getImagePath(), 128,128).getImage());
         JButton button = new JButton(pet.getName(), icon);
 
 
@@ -76,6 +77,13 @@ public class ShopPanel extends JPanel {
     private ArrayList<Pet> loadPets() {
         ShopItemsLoad sil = new ShopItemsLoad();
         return sil.getPets();
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        g.drawImage(bqIcon, 0, 0, getWidth(), getHeight(), this);
     }
 
 

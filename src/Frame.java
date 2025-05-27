@@ -11,7 +11,7 @@ public class Frame extends JFrame {
     private Menu menuPanel;
     private Help helpPanel;
     private ShopPanel  shopPanel;
-    private BettingSystem bs = new BettingSystem();
+    private BackgroundMusic bgm = new BackgroundMusic();
 
 
 
@@ -23,6 +23,8 @@ public class Frame extends JFrame {
         this.setIconImage(icon.getImage());
         this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
+        bgm.play("src/music/bg_music.wav");
+
 
 
         menuPanel= new Menu(this);
@@ -60,6 +62,10 @@ public class Frame extends JFrame {
         cards.add(gamePanel,"game");
         cardLayout.show(cards,"game");
 
+    }
+
+    public BackgroundMusic getBackgroundMusic() {
+        return bgm;
     }
 
 
