@@ -8,6 +8,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
+/**
+ * Represents the main game panel for the Chicken Game.
+ * It includes a 5x5 grid of buttons, UI elements for betting and pets,
+ * and handles game flow such as starting, resetting, and ending the game.
+ *
+ * This panel is added into the main game frame.
+ *
+ * @author Zdeněk Vacek
+ */
 public class GamePanel extends JPanel {
 
     private JButton[][] gridButtons = new JButton[5][5];
@@ -16,8 +25,8 @@ public class GamePanel extends JPanel {
     private GamePanelButtons startButton = new GamePanelButtons("START");
     private BettingSystem bs = new BettingSystem();
     private boolean gameRunning = false;
-    private  User u = new User();
-    private GameLogic gl = new GameLogic (u);
+    private User u = new User();
+    private GameLogic gl = new GameLogic(u);
     private Pet selectedPet;
     private JPanel topPanel;
     private JLabel petLabel;
@@ -25,16 +34,17 @@ public class GamePanel extends JPanel {
     private ImageIcon bombIcon = new ImageIcon("src/images/bomb.png");
     private Image bqIcon;
 
-
-
-
+    /**
+     * Constructs the GamePanel and sets up the layout, buttons, icons, and listeners.
+     *
+     * @param frame The main frame of game.
+     */
     public GamePanel(mainFrame.Frame frame) {
         bqIcon = new ImageIcon("src/images/gamepanel_bq.png").getImage();
         u.resetUserBalanceOnStartup();
         bs.updateBalanceLabel();
         bs.setGamePanel(this);
         this.setLayout(new BorderLayout());
-
 
         JPanel gridPanel = new JPanel(new GridLayout(5, 5));
         gridPanel.setPreferredSize(new Dimension(400, 400));
@@ -58,8 +68,6 @@ public class GamePanel extends JPanel {
                 gameRunning = true;
                 startButton.setText("END GAME");
             } else {
-
-
                 bs.rewardIfWin();
                 if (bs.getRevealedBones() > 0) {
                     u.loadUserBalance();
@@ -69,7 +77,6 @@ public class GamePanel extends JPanel {
                 prepareForNewGame();
             }
         });
-
 
         popupMenu = new GamePanelMenu(frame);
         topPanel = new JPanel(new BorderLayout());
@@ -83,11 +90,10 @@ public class GamePanel extends JPanel {
             popupMenu.showPopupMenu(menuButton, frame);
         });
 
-
         petLabel = new JLabel();
         petLabel.setHorizontalAlignment(SwingConstants.CENTER);
         topPanel.add(petLabel, BorderLayout.CENTER);
-        topPanel.add(menuButton,  BorderLayout.EAST);
+        topPanel.add(menuButton, BorderLayout.EAST);
         topPanel.add(bs.getCurrentBallanceLabel(), BorderLayout.WEST);
 
         JPanel centerWrapper = new JPanel(new GridBagLayout());
@@ -97,16 +103,13 @@ public class GamePanel extends JPanel {
         gbc.insets = new Insets(-70, 0, 0, 0);
         centerWrapper.add(gridPanel, gbc);
 
-        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER,20,10));
-
-
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
         bottomPanel.add(bs.getMinusButton());
         bottomPanel.add(bs.getStackedCurrentBalancePanel());
         bottomPanel.add(bs.getPlusButton());
         bottomPanel.add(startButton);
         bottomPanel.add(bs.getStackedCurrentBombsPanel());
         bottomPanel.add(bs.getChooseNumberOfBombsButton());
-
 
         this.add(topPanel, BorderLayout.NORTH);
         this.add(centerWrapper, BorderLayout.CENTER);
@@ -116,9 +119,13 @@ public class GamePanel extends JPanel {
         bottomPanel.setOpaque(false);
         topPanel.setOpaque(false);
         centerWrapper.setOpaque(false);
-
     }
 
+    /**
+     * Ends the game, disables interaction, shows a dialog, and resets the game controls.
+     *
+     * @param frame The main frame of game
+     */
     public void gameOver(mainFrame.Frame frame) {
         gameRunning = false;
         disableAllButtons();
@@ -132,8 +139,10 @@ public class GamePanel extends JPanel {
         bs.checkAndGiveMoneyRain();
     }
 
-
-
+    /**
+     * Initializes the game grid and adds listeners to the buttons.
+     * Each button either reveals a chicken (bone) or a bomb.
+     */
     public void initializeGrid() {
         gl.createBones();
         bs.resetRevealedBones();
@@ -144,10 +153,8 @@ public class GamePanel extends JPanel {
                 JButton button = gridButtons[row][col];
                 button.setBackground(null);
                 button.setEnabled(true);
-
                 button.setIcon(null);
                 button.setDisabledIcon(null);
-
 
                 boolean isBone = gl.getBones().get(index);
                 int finalRow = row;
@@ -159,12 +166,10 @@ public class GamePanel extends JPanel {
                 }
 
                 button.addActionListener(e -> {
-                    if(!gameRunning) return;
+                    if (!gameRunning) return;
 
                     System.out.println("Kliknuto na pole [" + finalRow + ", " + finalCol + "]");
-
                     button.setEnabled(false);
-
 
                     if (!isBone) {
                         button.setIcon(bombIcon);
@@ -175,16 +180,21 @@ public class GamePanel extends JPanel {
                         button.setIcon(chickenIcon);
                         button.setDisabledIcon(chickenIcon);
                     }
-
                 });
             }
         }
     }
+
+    /**
+     * Triggers a reset animation and then reinitializes the game grid.
+     */
     public void resetGrid() {
         animateGridReset();
     }
 
-
+    /**
+     * Disables all buttons on the grid and sets icons based on their bone/bomb value.
+     */
     public void disableAllButtons() {
         int index = 0;
         for (int row = 0; row < 5; row++) {
@@ -193,9 +203,7 @@ public class GamePanel extends JPanel {
                 boolean isBone = gl.getBones().get(index);
                 index++;
 
-                if (!button.isEnabled()) {
-                    continue;
-                }
+                if (!button.isEnabled()) continue;
 
                 button.setEnabled(false);
                 button.setIcon(null);
@@ -206,12 +214,13 @@ public class GamePanel extends JPanel {
                     button.setDisabledIcon(bombIcon);
                     button.setIcon(bombIcon);
                 }
-
             }
         }
     }
 
-
+    /**
+     * Resets the game state and UI components to allow a new game to begin.
+     */
     public void prepareForNewGame() {
         bs.updateBalanceLabel();
         bs.getChooseNumberOfBombsButton().setEnabled(true);
@@ -221,6 +230,11 @@ public class GamePanel extends JPanel {
         gameRunning = false;
     }
 
+    /**
+     * Sets the currently selected pet and updates the display label with its image.
+     *
+     * @param selectedPet The selected pet to display.
+     */
     public void setSelectedPet(Pet selectedPet) {
         this.selectedPet = selectedPet;
 
@@ -233,6 +247,9 @@ public class GamePanel extends JPanel {
         }
     }
 
+    /**
+     * Animates the grid reset by clearing button states one by one, then reinitializes the grid.
+     */
     public void animateGridReset() {
         int delay = 50;
         Timer timer = new Timer(delay, null);
@@ -266,13 +283,14 @@ public class GamePanel extends JPanel {
         this.gameRunning = running;
     }
 
-
-
+    /**
+     * Draws the background image for the panel.
+     *
+     * @param g The Graphics context to use for drawing.
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(bqIcon, 0, 0, getWidth(), getHeight(), this);
     }
-
-
 }

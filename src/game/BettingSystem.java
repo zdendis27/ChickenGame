@@ -5,9 +5,14 @@ import other.LoadIcons;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * This class is used for Betting System.
+ * In this class you can find methods, which are used in game for betting.
+ * @author Zdenek Vacek
+ */
 public class BettingSystem {
 
-    private int numberOfBombs;
+
     private int multiplyer = 2;
     private int currentBet = 0;
     private int revealedBones = 0;
@@ -27,6 +32,9 @@ public class BettingSystem {
     private int currentBombs = 0;
 
 
+    /**
+     * This constructor is used for space to control betting.
+     */
     public BettingSystem() {
         u.loadUserBalance();
         currentBombs = u.getNumberOfBombs();
@@ -136,6 +144,10 @@ public class BettingSystem {
 
     }
 
+
+    /**
+     * Bet method is used for betting.
+     */
     public void bet() {
         u.loadUserBalance();
         if (currentBet > 0 && currentBet <= u.getUserBalance()) {
@@ -160,6 +172,9 @@ public class BettingSystem {
     }
 
 
+    /**
+     * This method declares, what is going to happen if user wins.
+     */
     public void rewardIfWin() {
         u.loadUserBalance();
         int reward = currentBet * multiplyer * u.getNumberOfBombs() * revealedBones;
@@ -169,6 +184,10 @@ public class BettingSystem {
         updateBalanceLabel();
     }
 
+    /**
+     * This method simply updates Balance Label.
+     * It is used whenever is balance changing.
+     */
     public void updateBalanceLabel() {
         u.loadUserBalance();
 
@@ -176,6 +195,10 @@ public class BettingSystem {
         currentBallanceLabel.setText("Balance: " + u.getUserBalance());
     }
 
+    /**
+     * This method is solving low balance problem.
+     * If user balance is lower than 10, money rain will help him.
+     */
     public void checkAndGiveMoneyRain() {
         u.loadUserBalance();
         if (u.getUserBalance() < 10) {
@@ -192,8 +215,10 @@ public class BettingSystem {
     }
 
 
-
-
+    /**
+     * You can use this method for getting reward amount.
+     * @return Calculation of rewarding amount.
+     */
     public int getRewardAmount() {
         u.loadUserBalance();
         return (int) (currentBet * multiplyer * revealedBones*u.getNumberOfBombs());

@@ -5,16 +5,32 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Responsible for loading pet items from a file and providing them to the shop system.
+ * Pets are loaded from a text file and stored in a list.
+ *
+ * @author Zdeněk Vacek
+ */
 public class ShopItemsLoad {
 
     private ArrayList<Pet> pets;
     private String filePet = new String("src/files/pets");
 
+    /**
+     * Constructs the ShopItemsLoad and automatically loads pets from the default file.
+     */
     public ShopItemsLoad() {
         pets = new ArrayList<>();
         pets = loadPets(filePet);
     }
 
+    /**
+     * Loads pet data from a specified file.
+     * Each line must contain: imagePath,name,price,gifPath
+     *
+     * @param filePath the path to the file containing pet definitions
+     * @return a list of Pet objects loaded from the file
+     */
     public ArrayList<Pet> loadPets(String filePath) {
         ArrayList<Pet> allPets = new ArrayList<>();
 

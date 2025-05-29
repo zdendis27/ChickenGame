@@ -5,6 +5,14 @@ import shop.Pet;
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ * Represents a user in the game, storing their balance,pets and number of bombs.
+ * User data is read from and written to the {@code src/files/userData} file.
+ *
+ * This class provides functionality to load, update, and reset user data.
+ *
+ * @author Zdeněk Vacek
+ */
 public class User {
 
 
@@ -28,6 +36,10 @@ public class User {
         this.userBalance = userBalance;
     }
 
+    /**
+     * Loads the user’s balance and number of bombs from the file.
+     * Expects data in the format: {@code balance,bombs}.
+     */
     public void loadUserBalance() {
         try (BufferedReader br = new BufferedReader(new FileReader("src/files/userData"))) {
             String line = br.readLine();
@@ -56,6 +68,12 @@ public class User {
         }
     }
 
+
+    /**
+     * Updates the user’s balance in the file, keeping the bomb count unchanged.
+     *
+     * @param newBalance new balance to store
+     */
     public void updateUserBalance(int newBalance) {
         try {
             File file = new File("src/files/userData");
@@ -87,6 +105,12 @@ public class User {
         }
     }
 
+
+    /**
+     * Updates the number of bombs in the file, keeping the balance unchanged.
+     *
+     * @param newBombs new number of bombs to store
+     */
     public void updateNumberOfBombs(int newBombs) {
         try {
             File file = new File("src/files/userData");
@@ -124,6 +148,10 @@ public class User {
         }
     }
 
+    /**
+     * Resets the user’s balance to 100 on startup.
+     * If the file doesn't exist, it is created with default values.
+     */
     public void resetUserBalanceOnStartup() {
         File file = new File("src/files/userData");
 

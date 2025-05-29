@@ -3,8 +3,21 @@ package mainFrame;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Represents an exit button for the application.
+ * When clicked, it prompts the user with a confirmation dialog,
+ * and closes the application window if confirmed.
+ *
+ * @author Zdeněk Vacek
+ */
 public class ExitButton extends JButton {
-    
+
+    /**
+     * Constructs an ExitButton with predefined styling and action listener.
+     * When clicked, it asks the user for confirmation before closing the frame.
+     *
+     * @param frame the JFrame to be closed upon confirmation.
+     */
     public ExitButton(JFrame frame) {
         this.setText("EXIT");
         this.setPreferredSize(new Dimension(200, 50));
