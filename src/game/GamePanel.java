@@ -249,6 +249,7 @@ public class GamePanel extends JPanel {
 
     /**
      * Animates the grid reset by clearing button states one by one, then reinitializes the grid.
+     * @author Chat-GPT
      */
     public void animateGridReset() {
         int delay = 50;
