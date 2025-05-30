@@ -1,8 +1,4 @@
-package game;
-
-import mainFrame.ExitButton;
-import mainFrame.Frame;
-import mainFrame.StartButton;
+package mainFrame;
 
 import javax.swing.*;
 import java.awt.*;

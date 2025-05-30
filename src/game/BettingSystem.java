@@ -159,7 +159,7 @@ public class BettingSystem {
 
             JOptionPane.showMessageDialog(
                     null,
-                    "You do not have enough money to place this bet!",
+                    "You are betting 0 or you do not have enough money to place this bet!",
                     "You are broke...",
                     JOptionPane.WARNING_MESSAGE
             );

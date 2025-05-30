@@ -4,7 +4,6 @@ import game.GamePanel;
 import other.BackgroundMusic;
 import other.Help;
 import shop.ShopPanel;
-import game.Menu;
 
 import javax.swing.*;
 import java.awt.*;
